@@ -9,13 +9,16 @@ namespace MovieManager
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var app = builder.Build();
-            var env = app.Environment;
-            var config = app.Configuration;
+            var env = builder.Environment;
+            var config = builder.Configuration;
 
             builder.Services.AddMvc();
             builder.Services.AddSwaggerDocument();
             builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(config.GetConnectionString("MovieDBConnectionString")));
+
+
+            var app = builder.Build();
+
 
             if (env.IsDevelopment())
             {
