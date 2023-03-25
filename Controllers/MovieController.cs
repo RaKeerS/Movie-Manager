@@ -5,9 +5,22 @@ namespace MovieManager.Controllers
 {
     public class MovieController : Controller
     {
-        public Movie GetMovies(string genre)
+        private readonly MovieModel model;
+
+        public MovieController(MovieModel model)
         {
-            return new Movie();
+            this.model = model;
+        }
+        /// <summary>
+        /// Get Movies list of particular 'genre'.   
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <returns>
+        /// Returns list of Movies of requested 'genre'
+        /// </returns>
+        public List<Movie> GetMovies(string genre)
+        {
+            return model.getMovies(genre);
         }
     }
 }
