@@ -13,9 +13,22 @@ namespace MovieManager
             var config = builder.Configuration;
 
             builder.Services.AddMvc();
-            builder.Services.AddSwaggerDocument();
+            builder.Services.AddSwaggerDocument(configure => 
+                configure.PostProcess = document =>
+                {
+                    document.Info.Version = "v1.0";
+                    document.Info.Title = "Movie Manager API";
+                    document.Info.Description = "A Movie Manager Project with Basic implementation";
+                    document.Info.Contact = new NSwag.OpenApiContact
+                    {
+                        Name = "Srikar Naidu",
+                        Email = "n.srikar22@gmail.com",
+                        Url = "https://github.com/RaKeerS/Movie-Manager"
+                    };
+                }
+            );
             builder.Services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(config.GetConnectionString("MovieDBConnectionString")));
-
+            builder.Services.AddScoped<MovieModel>();
 
             var app = builder.Build();
 
@@ -28,15 +41,16 @@ namespace MovieManager
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("default", "{controller}/{action}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Movie}/{action=GetMovies}/{id?}");
             });
+
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
 
-            //app.MapGet("/", () => "Hello World!");
-
-            //app.Run();
+            app.Run();
         }
     }
 }

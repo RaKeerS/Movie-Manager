@@ -11,7 +11,16 @@
 
         public List<Movie> getMovies(string genre)
         {
-            return context.Movies.Where(movie => movie.Genre == genre).ToList();
+            List<Movie> moviesList;
+            if (genre == String.Empty)
+            {
+                moviesList = context.Movies.ToList();
+            }
+            else
+            {
+                moviesList = context.Movies.Where(movie => movie.Genre == genre).ToList();
+            }
+            return moviesList;
         }
     }
 }
