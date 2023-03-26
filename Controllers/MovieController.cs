@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MovieManager.Models;
+using NSwag.Annotations;
 
 namespace MovieManager.Controllers
 {
+    [Route("[controller]")]
     public class MovieController : Controller
     {
         private readonly MovieModel model;
